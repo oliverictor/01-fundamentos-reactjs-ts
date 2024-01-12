@@ -11,22 +11,27 @@ interface Author {
   avatarUrl: string;
 }
 interface Content {
-  type: 'paragraph' | 'link';
+  type: "paragraph" | "link";
   content: string;
 }
 
-interface PostProps {
+export interface PostType {
+  id: number;
   author: Author;
   publishedAt: Date;
   content: Content[];
 }
 
-export function Post({ author, content, publishedAt }: PostProps) {
+interface PostProps {
+  post: PostType;
+}
+
+export function Post({ post }: PostProps) {
   const [comments, setComments] = useState(["Post muito bacana, hein?!"]);
   const [newCommentText, setNewCommentText] = useState("");
 
   const publisedDateFormatted = format(
-    publishedAt,
+    post.publishedAt,
     "d 'de' LLLL 'às' HH:mm'h'",
     {
       // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -34,8 +39,8 @@ export function Post({ author, content, publishedAt }: PostProps) {
     }
   );
 
-  const publishedDateRelativeToNow = formatDistanceToNow(publishedAt, {
-       // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const publishedDateRelativeToNow = formatDistanceToNow(post.publishedAt, {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     locale: ptBR as any,
     addSuffix: true,
   });
@@ -68,22 +73,22 @@ export function Post({ author, content, publishedAt }: PostProps) {
     <article className={styles.post}>
       <header>
         <div className={styles.author}>
-          <Avatar src={author.avatarUrl} />
+          <Avatar src={post.author.avatarUrl} />
           <div className={styles.authorInfo}>
-            <strong>{author.name}</strong>
-            <span>{author.role}</span>
+            <strong>{post.author.name}</strong>
+            <span>{post.author.role}</span>
           </div>
         </div>
 
         <time
           title={publisedDateFormatted}
-          dateTime={publishedAt.toISOString()}
+          dateTime={post.publishedAt.toISOString()}
         >
           {publishedDateRelativeToNow}
         </time>
       </header>
       <div className={styles.content}>
-        {content.map((line, index) => {
+        {post.content.map((line, index) => {
           if (line.type === "paragraph") {
             return <p key={`paragraph-${index}`}>{line.content}</p>;
           }

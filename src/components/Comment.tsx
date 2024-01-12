@@ -4,8 +4,8 @@ import { Avatar } from "./Avatar";
 import styles from "./Comment.module.css";
 
 interface CommentProps {
-  content: string; 
-  onDeleteComment: (comment: string) => void
+  content: string;
+  onDeleteComment: (comment: string) => void;
 }
 
 export function Comment({ content, onDeleteComment }: CommentProps) {
@@ -23,7 +23,11 @@ export function Comment({ content, onDeleteComment }: CommentProps) {
 
   return (
     <div className={styles.comment}>
-      <Avatar hasBorder={false} src="https://github.com/oliverictor.png" alt="" />
+      <Avatar
+        hasBorder={false}
+        src="https://github.com/oliverictor.png"
+        alt=""
+      />
 
       <div className={styles.commentBox}>
         <div className={styles.commentContent}>
